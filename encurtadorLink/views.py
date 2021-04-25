@@ -20,13 +20,13 @@ class urlViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         if not self.request.data['url_encurtada_sugestao']:
             short = short_URL + '/' + self.request.data['url_encurtada_sugestao'].join(choices(ascii_letters, k=5))
-            if self.request.data['data_expiracao'] is None:
+            if self.request.data['data_expiracao'] == null:
                 serializer.save(url_encurtada_sugestao=short, data_expiracao=filtro)
             else:
                 serializer.save(url_encurtada_sugestao=short)
         else:
             short = short_URL + '/' + self.request.data['url_encurtada_sugestao']
-            if self.request.data['data_expiracao'] is None:
+            if self.request.data['data_expiracao'] == null:
                 serializer.save(url_encurtada_sugestao=short, data_expiracao=filtro)
             else:
                 serializer.save(url_encurtada_sugestao=short)
