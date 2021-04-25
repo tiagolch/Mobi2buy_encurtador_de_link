@@ -26,7 +26,7 @@ class urlViewSet(viewsets.ModelViewSet):
                 serializer.save(url_encurtada_sugestao=short)
         else:
             short = short_URL + '/' + self.request.data['url_encurtada_sugestao']
-            if self.request.data['data_expiracao'] == null:
+            if self.request.data['data_expiracao']:
                 serializer.save(url_encurtada_sugestao=short, data_expiracao__isnull=filtro)
             else:
                 serializer.save(url_encurtada_sugestao=short)
