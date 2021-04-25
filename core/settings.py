@@ -142,7 +142,7 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 10
 }
 
-HOST_URL = 'https://encurtador-de-link.herokuapp.com/'
+HOST_URL = 'https://short-link-mobi2buy.herokuapp.com/'
 
 
 django_heroku.settings(locals())
