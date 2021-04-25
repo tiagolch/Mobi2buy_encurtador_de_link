@@ -1,13 +1,10 @@
-from _xxsubinterpreters import destroy
 from datetime import date, timedelta
 from random import choices
 from string import ascii_letters
 
-from django.conf import settings
 from django.shortcuts import redirect
 from django.views import View
 from rest_framework import viewsets
-from rest_framework.decorators import action
 
 from .models import urlsEncurtadas
 from .serializers import urlEncurtadasSerializer
