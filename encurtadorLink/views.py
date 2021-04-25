@@ -19,7 +19,7 @@ class urlViewSet(viewsets.ModelViewSet):
     serializer_class = urlEncurtadasSerializer
 
     def perform_create(self, serializer):
-        nulo = urlsEncurtadas.objects.filter(data_expiracao__isnull=True)
+        nulo = urlEncurtadasSerializer.objects.filter(data_expiracao__isnull=True)
         if not self.request.data['url_encurtada_sugestao']:
             short = short_URL + '/' + self.request.data['url_encurtada_sugestao'].join(choices(ascii_letters, k=5))
             if self.request.data['data_expiracao'] == nulo:
