@@ -13,13 +13,12 @@ from .serializers import urlEncurtadasSerializer
 
 class urlViewSet(viewsets.ModelViewSet):
     filtro = datetime.today() - timedelta(days=7)
-    queryset = urlsEncurtadas.objects.filter(data_expiracao__gte=filtro)
+    queryset = urlsEncurtadas.objects.filter(data_criacao__gte=filtro)
     serializer_class = urlEncurtadasSerializer
 
     def perform_create(self, serializer):
         if not self.request.data['url_encurtada_sugestao']:
-            short = settings.HOST_URL + '/' + \
-                    self.request.data['url_encurtada_sugestao'].join(choices(ascii_letters, k=5))
+            short = settings.HOST_URL + '/' + self.request.data['url_encurtada_sugestao'].join(choices(ascii_letters, k=5))
             serializer.save(url_encurtada_sugestao=short)
         else:
             short = settings.HOST_URL + '/' + self.request.data['url_encurtada_sugestao']
