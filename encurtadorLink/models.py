@@ -14,7 +14,7 @@ class urlsEncurtadas(models.Model):
     ativo = models.BooleanField(default=True)
     data_criacao = models.DateField(auto_now_add=True,
                                         verbose_name='Data de Criação')
-    data_expiracao = models.DateField(verbose_name='Data de Expiracao', blank=True, null=True)
+    data_expiracao = models.DateField(verbose_name='Data de Expiracao', blank=True)
 
     def get_data_de_criacao(self):
         return self.data_criacao.strftime('%d/%m/%Y - %H:%M:%S')
