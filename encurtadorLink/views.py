@@ -10,6 +10,8 @@ from rest_framework import viewsets
 from .models import urlsEncurtadas
 from .serializers import urlEncurtadasSerializer
 
+short_URL = 'https://tiag.o'
+
 
 class urlViewSet(viewsets.ModelViewSet):
     filtro = datetime.today() - timedelta(days=7)
@@ -18,15 +20,15 @@ class urlViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         if not self.request.data['url_encurtada_sugestao']:
-            short = settings.HOST_URL + '/' + self.request.data['url_encurtada_sugestao'].join(choices(ascii_letters, k=5))
+            short = short_URL + '/' + self.request.data['url_encurtada_sugestao'].join(choices(ascii_letters, k=5))
             serializer.save(url_encurtada_sugestao=short)
         else:
-            short = settings.HOST_URL + '/' + self.request.data['url_encurtada_sugestao']
+            short = short_URL + '/' + self.request.data['url_encurtada_sugestao']
             serializer.save(url_encurtada_sugestao=short)
 
 
 class urlRedirect(View):
     def get(self, request, url_encurtada_sugestao, *args, **kwargs):
-        linkEncurtado = settings.HOST_URL+'/'+self.kwargs['url_encurtada_sugestao']
+        linkEncurtado = short_URL + '/' + self.kwargs['url_encurtada_sugestao']
         redirect_link = urlsEncurtadas.objects.filter(url_encurtada_sugestao=linkEncurtado).first().url_original
         return redirect(redirect_link)
