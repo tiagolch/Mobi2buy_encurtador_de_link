@@ -11,6 +11,7 @@ from .serializers import urlEncurtadasSerializer
 
 short_URL = 'https://short-link-mobi2buy.herokuapp.com'
 filtro = date.today() - timedelta(days=7)
+limite = date.today() + timedelta(days=7)
 
 
 class urlViewSet(viewsets.ModelViewSet):
@@ -21,13 +22,13 @@ class urlViewSet(viewsets.ModelViewSet):
         if not self.request.data['url_encurtada_sugestao']:
             short = short_URL + '/' + self.request.data['url_encurtada_sugestao'].join(choices(ascii_letters, k=5))
             if self.request.data['data_expiracao'] is not None:
-                serializer.save(url_encurtada_sugestao=short, data_expiracao=filtro)
+                serializer.save(url_encurtada_sugestao=short, data_expiracao=limite)
             else:
                 serializer.save(url_encurtada_sugestao=short)
         else:
             short = short_URL + '/' + self.request.data['url_encurtada_sugestao']
             if self.request.data['data_expiracao'] is not None:
-                serializer.save(url_encurtada_sugestao=short, data_expiracao=filtro)
+                serializer.save(url_encurtada_sugestao=short, data_expiracao=limite)
             else:
                 serializer.save(url_encurtada_sugestao=short)
 
