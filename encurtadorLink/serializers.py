@@ -1,6 +1,7 @@
 from rest_framework import serializers
 
 from .models import urlsEncurtadas
+from rest_framework.decorators import action
 
 
 class urlEncurtadasSerializer(serializers.ModelSerializer):

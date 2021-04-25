@@ -12,7 +12,7 @@ class urlsEncurtadas(models.Model):
                                               verbose_name='URL Encurtada',
                                               unique=True)
     ativo = models.BooleanField(default=True)
-    data_criacao = models.DateTimeField(auto_now_add=True,
+    data_criacao = models.DateField(auto_now_add=True,
                                         verbose_name='Data de Criação')
     data_expiracao = models.DateField(verbose_name='Data de Expiracao', blank=True, null=True)
 
@@ -24,11 +24,6 @@ class urlsEncurtadas(models.Model):
 
     def __str__(self):
         return f'{self.url_original}'
-
-    def save(self, *args, **kwargs):
-        if self.data_expiracao is not None:
-            self.data_expiracao = datetime.today() + timedelta(days=7)
-        super(urlsEncurtadas, self).save(*args, **kwargs)
 
     class Meta:
         verbose_name_plural = 'URLS Encurtadas'

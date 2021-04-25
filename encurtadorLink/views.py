@@ -1,4 +1,5 @@
-from datetime import datetime, timedelta
+from _xxsubinterpreters import destroy
+from datetime import date, timedelta
 from random import choices
 from string import ascii_letters
 
@@ -6,25 +7,32 @@ from django.conf import settings
 from django.shortcuts import redirect
 from django.views import View
 from rest_framework import viewsets
+from rest_framework.decorators import action
 
 from .models import urlsEncurtadas
 from .serializers import urlEncurtadasSerializer
 
-short_URL = 'https://tiag.o'
+short_URL = 'https://short-link-mobi2buy.herokuapp.com'
+filtro = date.today() - timedelta(days=7)
 
 
 class urlViewSet(viewsets.ModelViewSet):
-    filtro = datetime.today() - timedelta(days=7)
     queryset = urlsEncurtadas.objects.filter(data_criacao__gte=filtro)
     serializer_class = urlEncurtadasSerializer
 
     def perform_create(self, serializer):
         if not self.request.data['url_encurtada_sugestao']:
             short = short_URL + '/' + self.request.data['url_encurtada_sugestao'].join(choices(ascii_letters, k=5))
-            serializer.save(url_encurtada_sugestao=short)
+            if self.request.data['data_expiracao'] is None:
+                serializer.save(url_encurtada_sugestao=short, data_expiracao=filtro)
+            else:
+                serializer.save(url_encurtada_sugestao=short)
         else:
             short = short_URL + '/' + self.request.data['url_encurtada_sugestao']
-            serializer.save(url_encurtada_sugestao=short)
+            if self.request.data['data_expiracao'] is None:
+                serializer.save(url_encurtada_sugestao=short, data_expiracao=filtro)
+            else:
+                serializer.save(url_encurtada_sugestao=short)
 
 
 class urlRedirect(View):
@@ -32,3 +40,6 @@ class urlRedirect(View):
         linkEncurtado = short_URL + '/' + self.kwargs['url_encurtada_sugestao']
         redirect_link = urlsEncurtadas.objects.filter(url_encurtada_sugestao=linkEncurtado).first().url_original
         return redirect(redirect_link)
+
+
+
