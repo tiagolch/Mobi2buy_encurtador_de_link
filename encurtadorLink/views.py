@@ -19,19 +19,19 @@ class urlViewSet(viewsets.ModelViewSet):
     serializer_class = urlEncurtadasSerializer
 
     def perform_create(self, serializer):
-        nulo = urlEncurtadasSerializer.objects.filter(data_expiracao__isnull=True)
+
         if not self.request.data['url_encurtada_sugestao']:
             short = short_URL + '/' + self.request.data['url_encurtada_sugestao'].join(choices(ascii_letters, k=5))
-            if self.request.data['data_expiracao'] == nulo:
-                serializer.save(url_encurtada_sugestao=short, data_expiracao=limite)
-            else:
+            if self.request.data['data_expiracao']is None:
                 serializer.save(url_encurtada_sugestao=short)
+            else:
+                serializer.save(url_encurtada_sugestao=short, data_expiracao=limite)
         else:
             short = short_URL + '/' + self.request.data['url_encurtada_sugestao']
-            if self.request.data['data_expiracao'] == nulo:
-                serializer.save(url_encurtada_sugestao=short, data_expiracao=limite)
-            else:
+            if self.request.data['data_expiracao__isnull'] is None:
                 serializer.save(url_encurtada_sugestao=short)
+            else:
+                serializer.save(url_encurtada_sugestao=short, data_expiracao=limite)
 
 
 class urlRedirect(View):
